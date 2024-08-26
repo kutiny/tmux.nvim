@@ -1,10 +1,19 @@
 local Tmux = {}
 local Config = require('tmux.config')
+local Helpers = require('tmux.helpers')
 local rt = {}
 
 function Tmux.list_sessions()
-    local sessions = vim.fn.system('tmux list-sessions -F "' .. rt.config.formats.sessions .. '"')
-    print(sessions)
+    local sessions = Helpers.get_sessions(rt.config)
+    if rt.win then
+        return
+    else
+        local bufwin = Helpers.create_window(rt.config)
+        vim.api.nvim_buf_set_lines(bufwin.bufnr, 0, -1, false, sessions)
+        vim.api.nvim_set_option_value('readonly', true, { buf = bufwin.bufnr })
+        vim.api.nvim_set_option_value('modifiable', false, { buf = bufwin.bufnr })
+    end
+
 end
 
 function Tmux.setup(opts)

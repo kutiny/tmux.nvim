@@ -1,11 +1,11 @@
 local Config = {}
 
 ---@alias UserConfig{formats: { sessions: string?, windows: string?}?}
----@alias BuffConfi{formats: { sessions: string, windows: string}}
+---@alias Config{formats: { sessions: string, windows: string}}
 
 ---Joins the user configuration with defaults
 ---@param user_config UserConfig
----@return BuffConfig
+---@return Config
 function Config.get_config(user_config)
     local default_config = {
         formats = {
